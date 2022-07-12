@@ -38,9 +38,12 @@ dependencies:
   firebase_core: ^1.19.1
   firebase_storage: ^10.3.1
   file_picker: ^4.6.1
+  provider:
   flutter_native_splash: ^2.0.1+1
   image_cropper: ^1.0.2
   image_picker: ^0.8.5+3
+  rflutter_alert:
+  flutter_easyloading:
 
 flutter_native_splash:
   color: "#d1f2e7"
