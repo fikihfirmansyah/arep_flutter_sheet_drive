@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "65479730759",
+    "project_id": "agatha-flutter-gdrive",
+    "storage_bucket": "agatha-flutter-gdrive.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65479730759:android:25076e801c103fcd917362",
+        "android_client_info": {
+          "package_name": "agt.flutter.arep_flutter_sheet_drive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "65479730759-e99kvhm6m6tugj9bfhlt4toq7o4v423a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbF349kk46Pot88kLiY4nYhEQRL33Ht1I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "65479730759-e99kvhm6m6tugj9bfhlt4toq7o4v423a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65479730759:android:5b0630dcb277bcca917362",
+        "android_client_info": {
+          "package_name": "com.example.sheet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "65479730759-d6q7aqndvhq84hfc0niip3mabnvdehqo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sheet",
+            "certificate_hash": "c931271d373545bfd958251c55f222c04013f1ad"
+          }
+        },
+        {
+          "client_id": "65479730759-e99kvhm6m6tugj9bfhlt4toq7o4v423a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbF349kk46Pot88kLiY4nYhEQRL33Ht1I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "65479730759-e99kvhm6m6tugj9bfhlt4toq7o4v423a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

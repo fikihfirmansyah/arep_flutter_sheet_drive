@@ -1,8 +1,13 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:arep_flutter_sheet_drive/controller.dart';
-import 'package:arep_flutter_sheet_drive/model.form.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'service_cloud_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -13,101 +18,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'PINJAMAN ONLINE',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'PINJAMAN ONLINE'),
+      home: const HomeScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  ///
-  ///
-  /// FORM CONTROLLER
-  /// FORM CONTROLLER
-  ///
-  ///
-  /// Create a global key that uniquely identifies the Form widget
-  /// and allows validation of the form.
-  ///
-
-  final _formKey = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  // TextField Controllers
-  TextEditingController NAMAController = TextEditingController();
-  TextEditingController TEMPATTANGGALLAHIRController = TextEditingController();
-  TextEditingController ALAMATController = TextEditingController();
-  TextEditingController JUMLAHPINJAMANController = TextEditingController();
-
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      FeedbackForm feedbackForm = FeedbackForm(
-          NAMAController.text,
-          TEMPATTANGGALLAHIRController.text,
-          ALAMATController.text,
-          JUMLAHPINJAMANController.text);
-
-      FormController formController = FormController((String response) {
-        print("Response: $response");
-        if (response == FormController.STATUS_SUCCESS) {
-          //
-          _showSnackbar("Feedback Submitted");
-        } else {
-          _showSnackbar("Error Occurred!");
-        }
-      });
-
-      _showSnackbar("Submitting Feedback");
-
-      // Submit 'feedbackForm' and save it in Google Sheet
-      formController.submitForm(feedbackForm);
-    }
-  }
-
-  // Method to show snackbar with 'message'.
-  _showSnackbar(String message) {
-    final snackBar = SnackBar(content: Text(message));
-    // ignore: deprecated_member_use
-    _scaffoldKey.currentState!.showSnackBar(snackBar);
-  }
-
-  ///
-  ///
-  /// FORM CONTROLLER
-  /// FORM CONTROLLER
-  ///
-  ///
-
+class _HomeScreenState extends State<HomeScreen> {
   ///
   ///
   /// UI WIDGETS
@@ -116,85 +43,80 @@ class _MyHomePageState extends State<MyHomePage> {
   ///
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    final ServiceCloudStorage storage = ServiceCloudStorage();
     return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 50, horizontal: 24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    TextFormField(
-                      controller: NAMAController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Enter Valid NAMA";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(labelText: "NAMA"),
-                    ),
-                    TextFormField(
-                      controller: TEMPATTANGGALLAHIRController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Enter Valid TEMPAT TANGGAL LAHIR";
-                        }
-                        return null;
-                      },
-                      decoration:
-                          InputDecoration(labelText: "TEMPAT TANGGAL LAHIR"),
-                    ),
-                    TextFormField(
-                      controller: ALAMATController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Enter Valid ALAMAT";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(labelText: "ALAMAT"),
-                    ),
-                    TextFormField(
-                      controller: JUMLAHPINJAMANController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Enter Valid JUMLAH PINJAMAN";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(labelText: "JUMLAH PINJAMAN"),
-                    ),
-                    RaisedButton(
-                      color: Colors.blue,
-                      textColor: Colors.white,
-                      onPressed: _submitForm,
-                      child: Text('Submit PINJAMAN'),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
+        appBar: AppBar(
+          title: Text('Upload Data'),
         ),
-      ),
-    );
+        body: Column(
+          children: [
+            Center(
+              child: ElevatedButton(
+                onPressed: () async {
+                  final results = await FilePicker.platform.pickFiles(
+                    allowMultiple: false,
+                    type: FileType.custom,
+                    allowedExtensions: ['png', 'jpg'],
+                  );
+                  if (results == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('No file selected')));
+                  }
+                  final path = results!.files.single.path!;
+                  final fileName = results.files.single.name;
+
+                  storage
+                      .uploadFile(path, fileName)
+                      .then((value) => print('Done'));
+                },
+                child: Text('Upload Data'),
+              ),
+            ),
+            FutureBuilder(
+                future: storage.listFiles(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<firebase_storage.ListResult> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done &&
+                      snapshot.hasData) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      height: 50,
+                      child: ListView.builder(
+                        itemCount: snapshot.data!.items.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(snapshot.data!.items[index].name),
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting ||
+                      !snapshot.hasData) {
+                    return CircularProgressIndicator();
+                  }
+                  return Container();
+                }),
+            // FutureBuilder(
+            //   future: storage
+            //       .downloadURL('053b9dda-a5ba-11ec-8b63-027b6c569736.png'),
+            //   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            //     if (snapshot.connectionState == ConnectionState.done &&
+            //         snapshot.hasData) {
+            //       return Container(
+            //           width: 300,
+            //           height: 250,
+            //           child: Image.network(snapshot.data!, fit: BoxFit.cover));
+            //     }
+            //     if (snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData) {
+            //       return CircularProgressIndicator();
+            //     }
+            //     return Container();
+            //   },
+            // )
+          ],
+        ));
   }
 
   ///
