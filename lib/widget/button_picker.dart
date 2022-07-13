@@ -11,7 +11,7 @@ class ButtonPicker extends StatelessWidget {
       child: Row(
         children: [
           const Icon(
-            Icons.image,
+            Icons.camera_alt,
             size: 35,
           ),
           Text(

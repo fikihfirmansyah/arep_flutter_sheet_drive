@@ -15,10 +15,17 @@ class ButtonRounded extends StatelessWidget {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(vertical: 15.0),
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(10)
+      ),
       child: TextButton(
         onPressed: onPressed,
         child: Text(
           text,
+          style: const TextStyle(
+            color: Colors.white
+          ),
         ),
       ),
     );

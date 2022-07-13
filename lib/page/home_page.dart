@@ -5,6 +5,7 @@ import 'package:arep_flutter_sheet_drive/widget/custom_form.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -71,38 +72,38 @@ class _HomePageState extends State<HomePage> {
                 ),
                 fotoKTP != null
                     ? Container(
-                  margin: EdgeInsets.only(top: 15, bottom: 30),
-                  height: 200,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: FileImage(fotoKTP!),
-                    ),
-                  ),
-                )
+                        margin: EdgeInsets.only(top: 15, bottom: 30),
+                        height: 200,
+                        width: 150,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: FileImage(fotoKTP!),
+                          ),
+                        ),
+                      )
                     : ButtonPicker(
-                  title: "Photo KTP",
-                  onTap: () => doPhotoKTP(),
-                ),
+                        title: "Photo KTP",
+                        onTap: () => doPhotoKTP(),
+                      ),
                 selfieKTP != null
                     ? Container(
-                  margin: EdgeInsets.only(top: 15, bottom: 30),
-                  height: 200,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: FileImage(selfieKTP!),
-                    ),
-                  ),
-                )
+                        margin: EdgeInsets.only(top: 15, bottom: 30),
+                        height: 200,
+                        width: 150,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: FileImage(selfieKTP!),
+                          ),
+                        ),
+                      )
                     : ButtonPicker(
-                  title: "Selfhie KTP",
-                  onTap: () => doPhotoSelfhie(),
-                ),
+                        title: "Selfhie KTP",
+                        onTap: () => doPhotoSelfhie(),
+                      ),
                 ButtonRounded(
                   text: "Upload Berkas",
                   onPressed: () => doUploadBerkas(context),
@@ -116,14 +117,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   doPhotoSelfhie() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['jpg', 'png', 'jpeg'],
-    );
+    ImagePicker? _imagePicker = ImagePicker();
+
+    XFile? result = await _imagePicker.pickImage(source: ImageSource.camera);
 
     if (result != null) {
       setState(() {
-        selfieKTP = File(result.files.single.path!);
+        selfieKTP = File(result.path);
       });
     } else {
       // User canceled the picker
@@ -131,14 +131,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   doPhotoKTP() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['jpg', 'png', 'jpeg'],
-    );
+    ImagePicker? _imagePicker = ImagePicker();
+
+    XFile? result = await _imagePicker.pickImage(source: ImageSource.camera);
 
     if (result != null) {
       setState(() {
-        fotoKTP = File(result.files.single.path!);
+        fotoKTP = File(result.path);
       });
     } else {
       // User canceled the picker
@@ -151,20 +150,20 @@ class _HomePageState extends State<HomePage> {
         nama != null &&
         tempatLahir != null &&
         alamat != null &&
-        jumlahPinjaman != null
-    ) {
+        jumlahPinjaman != null) {
       EasyLoading.show(status: "Loading");
 
-      var result = await Provider.of<UploadProvider>(context,listen: false).doUploadBerkas(
-          fotoKTP: fotoKTP!,
-          selfieKTP: selfieKTP!,
-          nama: nama!,
-          tempatLahir: tempatLahir!,
-          alamat: alamat!,
-          jumlahPinjaman: jumlahPinjaman!);
+      var result = await Provider.of<UploadProvider>(context, listen: false)
+          .doUploadBerkas(
+              fotoKTP: fotoKTP!,
+              selfieKTP: selfieKTP!,
+              nama: nama!,
+              tempatLahir: tempatLahir!,
+              alamat: alamat!,
+              jumlahPinjaman: jumlahPinjaman!);
 
       EasyLoading.dismiss();
-      if(result){
+      if (result) {
         Alert(
           context: context,
           type: AlertType.success,
@@ -172,7 +171,17 @@ class _HomePageState extends State<HomePage> {
           desc: "Berhasil upload berkas",
           buttons: [
             DialogButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: (){
+                setState(() {
+                  fotoKTP = null;
+                  selfieKTP = null;
+                  nama = null;
+                  tempatLahir = null;
+                  alamat = null;
+                  jumlahPinjaman = null;
+                });
+                Navigator.pop(context);
+              },
               radius: BorderRadius.circular(0.0),
               child: const Text(
                 "Close",
@@ -181,7 +190,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ).show();
-      }else{
+      } else {
         Alert(
           context: context,
           type: AlertType.error,
@@ -199,7 +208,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ).show();
       }
-
     } else {
       Alert(
         context: context,
