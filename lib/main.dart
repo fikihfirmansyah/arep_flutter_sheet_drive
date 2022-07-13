@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         builder: EasyLoading.init(),
         title: 'PINJAMAN ONLINE',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
