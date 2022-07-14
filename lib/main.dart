@@ -8,6 +8,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'service/service_cloud_storage.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:material_color_generator/material_color_generator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,15 +27,16 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => UploadProvider()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         builder: EasyLoading.init(),
         title: 'PINJAMAN ONLINE',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch:
+              generateMaterialColor(color: Color.fromARGB(255, 15, 57, 35)),
         ),
         home: const HomePage(),
       ),
     );
   }
 }
-

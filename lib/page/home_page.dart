@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
     final ServiceCloudStorage storage = ServiceCloudStorage();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Upload Data'),
+        title: const Text('PINJAMAN ONLINE'),
       ),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -171,7 +171,7 @@ class _HomePageState extends State<HomePage> {
           desc: "Berhasil upload berkas",
           buttons: [
             DialogButton(
-              onPressed: (){
+              onPressed: () {
                 setState(() {
                   fotoKTP = null;
                   selfieKTP = null;
