@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         builder: EasyLoading.init(),
         title: 'PINJAMAN ONLINE',
-        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch:
               generateMaterialColor(color: Color.fromARGB(255, 15, 57, 35)),
